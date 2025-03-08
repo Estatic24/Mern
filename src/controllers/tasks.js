@@ -18,6 +18,17 @@ module.exports = {
     res.json(task);
   },
 
+  getTasksByUserId(req, res) {
+    const userId = Number(req.query.userId);
+    const tasks = Task.getAll().filter((task) => task.authorId === userId);
+
+    if (tasks.length === 0) {
+      return res.status(404).json({ error: "Задачи не найдены для данного пользователя" });
+    }
+
+    res.json(tasks);
+  },
+
   // Создать новую задачу
   createTask(req, res) {
     const newTask = Task.create({
